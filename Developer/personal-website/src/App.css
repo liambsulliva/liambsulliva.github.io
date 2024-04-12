@@ -43,65 +43,97 @@ html, body{
     padding: 20px;
 }
 
-h3 {
-    font-size: 24px;
-    font-weight: 500;
-    color: var(--text);
-    margin: 10px;
+.imageContainer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  overflow: visible;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 10px;
 }
 
-/* Style the centered list */
-.centered-list {
-    list-style-type: none;
-    padding: 0;
-}
-
-    /* Style the centered list items */
-.centered-item {
-    list-style-type: none;
-    text-align: center;
-    padding-left: 0;
-    margin-bottom: 10px;
-}
-
-.centered-item img {
-  transition: transform 0.3s;
-  height: auto;
-  max-width: 100%;
-}
-
-.centered-item img:hover {
-  transform: scale(1.025);
-}
-
-.centered-item p {
-  margin-top: 0;
-  font-size: 16px;
-  color: var(--text);
-}
-
-.centered-item p:active {
-  color: var(--text);
-}
-
-
-li{
-    list-style-type: disc;
-    margin: 20px;
-}
-
-#icon {
-    width: 30px;
-    cursor: pointer;
-}
-
-.container {
+.nav-bar {
     display: flex;
-    flex-direction: row;
+    justify-content: space-between;
     align-items: center;
+    background-color: var(--header);
+    height: 80px;
+    width: 100%;
+}
+
+.nav-wrapper {
+  float: right;
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+  margin-right: 20px;
+}
+
+.nav-element {
+  list-style: none;
+  padding: 10px;
+}
+
+.portfolio-container {
+  column-count: 6;
+  padding: 0 3rem;
+}
+
+@media screen and (max-width: 1400px) {
+  .portfolio-container {
+    column-count: 5;
   }
+}
+
+@media screen and (max-width: 1200px) {
+  .portfolio-container {
+    column-count: 4;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .portfolio-container {
+    column-count: 3;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .portfolio-container {
+    column-count: 2;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .portfolio-container {
+    column-count: 1;
+  }
+}
+
+.portfolio-element {
+  height: auto;
+  width: 100%;
+  padding: 10px;
+}
+
+.nav-title {
+  cursor: pointer;
+  color: white;
+  font-size: 35px;
+  line-height: 80px;
+  padding: 50px;
+  font-weight: bold;
+}
+
+.landing-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
   
-.photo {
+.profile-photo {
   max-width: 26%;
   min-width: 400px;
   margin-left: 25px;
@@ -110,14 +142,10 @@ li{
   height: auto;
 }
 
-p {
-  font-size: 1.125rem;
+.text {
   line-height: 1.6;
   margin-top: 20px;
   margin-bottom: 20px;
-}
-
-.text {
   flex-basis: 60%;
   text-align: left;
   padding-left: 20px;
@@ -127,30 +155,6 @@ p {
 .title {
   font-size: 2.25rem;
   font-weight: bold;
-}
-
-.container2 {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-}
-
-.descriptions {
-  flex-basis: 50%;
-}
-
-.descriptions h2 {
-  text-align: center;
-}
-
-.descriptions ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.descriptions li {
-  margin-bottom: 1rem;
 }
 
 .form-container {
@@ -163,26 +167,7 @@ p {
     text-align: center; /* Center the form contents horizontally */
 }
 
-/* Default styles for the navbar */
-nav {
-  background: var(--header);
-  height: 80px;
-  width: 100%;
-}
-
-nav ul {
-  float: right;
-  display: flex;
-  flex-direction: row;
-  list-style: none;
-  margin-right: 20px;
-}
-
-nav ul li {
-  list-style: none;
-}
-
-.button {
+.navLink {
   display: inline-block;
   padding: 10px 20px;
   background-color: none;
@@ -194,13 +179,13 @@ nav ul li {
   transition: scale 0.1s ease;
 }
 
-.button:hover {
+.navLink:hover {
   background-color: var(--header-text);
   color: var(--header);
   transition: .3s;
 }
 
-.button:active {
+.navLink:active {
   transform: scale(0.96);
 }
 
@@ -246,7 +231,6 @@ input[type="email"] {
   color: white;
   font-size: 35px;
   line-height: 80px;
-  padding: 50px;
   font-weight: bold;
 }
 
@@ -268,61 +252,56 @@ button[type="submit"]:active {
 }
 
 @media screen and (max-width: 1380px) {
-  .container {
+  .landing-container {
     flex-direction: column;
   }
 }
 
 /* Media query for responsive design */
 @media screen and (max-width: 1075px) {
-  nav {
+  .nav-bar {
     display: flex;
     flex-wrap: nowrap;
     align-items: center;
     justify-content: center;
   }
 
-  nav ul li {
+  .nav-title {
+    display: none;
+  }
+
+  .nav-element {
     padding: 0.5em 1em;
     font-size: 1em;
     list-style-type: none;
   }
 
-  label.logo {
-    display: none;
-  }
-
-  .photo {
+  .profile-photo {
     min-width: 80%;
   }
 }
 
 @media (max-width: 836px) {
-  nav ul li {
+  .nav-element {
     font-size: 0.75em;
     margin: 10px;
   }
 }
 
-  @media (max-width: 716px) {
-    nav ul li {
-      padding: 0.2em 0.4em;
-      font-size: 0.1em;
-      margin: 0px;
-    }
-}
-
-textarea {
-    resize: vertical;
+@media (max-width: 716px) {
+  .nav-element {
+    padding: 0.2em 0.4em;
+    font-size: 0.1em;
+    margin: 0px;
+  }
 }
   
 footer {
   padding: 15px;
 }
 
-#photo-gallery {
-  margin-left: 50px;
-  margin-right: 50px;
+footer a {
+  margin: 2px;
 }
 
 /* Project Content */
@@ -331,6 +310,7 @@ footer {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  gap: 20px;
 }
 
 .repo {
@@ -341,6 +321,13 @@ footer {
   padding: 10px;
   padding-bottom: 20px;
   list-style-type: none;
+}
+
+.repo-title {
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--text);
+  margin: 10px;
 }
 
 /* Default Link Styling */

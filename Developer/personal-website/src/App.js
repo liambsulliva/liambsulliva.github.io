@@ -1,6 +1,7 @@
 import Image from './me.jpg';
 import './App.css';
-import React from 'react';
+//import Projects from './projects.js';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
 const currentYear = new Date().getFullYear();
@@ -23,22 +24,23 @@ function App() {
 
 const NavBar = () => {
   return (
-    <nav>
-      <ul>
-        <li>
-          <Link to="/">About</Link>
+    <nav className="nav-bar">
+      <Link to="/" className="nav-title">Liam Sullivan</Link>
+      <ul className="nav-wrapper">
+        <li className="nav-element">
+          <Link to="/" className="navLink">About</Link>
         </li>
-        <li>
-          <Link to="/resume">Resumé</Link>
+        <li className="nav-element">
+          <Link to="/resume" className="navLink">Resumé</Link>
         </li>
-        <li>
-          <Link to="/photography">Photography</Link>
+        <li className="nav-element">
+          <Link to="/photography" className="navLink">Photography</Link>
         </li>
-        <li>
-          <Link to="/projects">Projects</Link>
+        <li className="nav-element">
+          <Link to="/projects" className="navLink">Projects</Link>
         </li>
-        <li>
-          <Link to="/contact">Contact</Link>
+        <li className="nav-element">
+          <Link to="/contact" className="navLink">Contact</Link>
         </li>
       </ul>
     </nav>
@@ -56,6 +58,101 @@ const Footer = () => {
   );
 }
 
+const FlickrGallery = () => {
+  const [flickrData, setFlickrData] = useState([]);
+
+  useEffect(() => {
+    const fetchFlickrData = async () => {
+      //TODO: Hide in Github Secrets
+      const apiKey = process.env.REACT_APP_FLICKR_API_KEY;
+      const userId = process.env.REACT_APP_FLICKR_USER_ID;
+      const url = `https://api.flickr.com/services/rest/?method=flickr.people.getPublicPhotos&api_key=${apiKey}&user_id=${userId}&format=json&nojsoncallback=1`;
+
+      const response = await fetch(url);
+      const data = await response.json();
+
+      let photos = [];
+      if (data.stat === 'ok') {
+        for (let i = 1; i <= data.photos.pages; i++) {
+          const pageUrl = `https://api.flickr.com/services/rest/?method=flickr.people.getPublicPhotos&api_key=${apiKey}&user_id=${userId}&format=json&nojsoncallback=1&page=${i}`;
+          const pageResponse = await fetch(pageUrl);
+          const pageData = await pageResponse.json();
+          if (pageData.stat === 'ok') {
+            for (let j = 0; j < pageData.photos.photo.length; j++) {
+              const photo = pageData.photos.photo[j];
+              const src = `https://live.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}.jpg`;
+              photos.push({ src: src });
+            }
+          } else {
+            console.error(`Error fetching Flickr data for page ${i}, ${pageData.message}`);
+          }
+        }
+        setFlickrData(photos);
+      } else {
+        console.error(`Error fetching Flickr data ${data.message}`);
+      }
+    };
+    fetchFlickrData();
+  }, []);
+
+  return (
+    <div className="portfolio-container">
+      {flickrData.map((photo, index) => (
+        <div key={index} className={`portfolio-wrapper`}>
+          <img src={photo.src} alt={photo.title} className="portfolio-element" />
+        </div>
+      ))}
+    </div>
+  );
+};
+
+const GitHubFetcher = () => {
+  let [repos, setRepos] = useState([]);
+
+  useEffect(() => {
+    const fetchRepos = async ( page = 1 ) => {
+      const res = await fetch(
+        `https://api.github.com/users/liambsulliva/repos?&sort=pushed&per_page=100&page=${page}`
+      );
+      const data = await res.json();
+      //Check if there are any repos left to fetch
+      if (data.length > 0) {
+          repos = repos.concat(data);
+          return fetchRepos(page + 1); // if yes, call function recursively to grab next
+      } else {
+          setRepos(repos);
+      }
+    };
+    fetchRepos();
+    console.log(repos);
+  }, []);
+
+  return (
+    <div className="repo-list">
+      {repos.map((repo, index) => (
+        repo.fork || repo.name === 'personal-website' || repo.name === 'liambsulliva' ? null : (
+          <div key={index} className="repo">
+            <h3 className="repo-title">{repo.name}</h3>
+            <span className="repo-description">{repo.description}</span>
+            {repo.homepage && repo.homepage !== '' ? (
+              <>
+                <br /> <br />
+                <a className="link-btn" href={repo.html_url} target="_blank">View Project</a> <br /> <br />
+                <a className="link-btn" href={repo.homepage} target="_blank">Live Preview</a> <br />
+              </>
+            ) : (
+              <>
+                <br /> <br />
+                <a className="link-btn" href={repo.html_url} target="_blank">View Project</a> <br />
+              </>
+            )}
+          </div>
+        )
+      ))}
+    </div>
+  );
+}
+
 const PDFViewer = () => {
   return (
     <div style={{ width: '100vw', height: '90vh' }}>
@@ -70,8 +167,8 @@ const LandingPage = () => {
   return (
     <div>
       <main>
-        <div className="container">
-          <img src={ Image } alt="Liam Sullivan" className="photo" /><br />
+        <div className="landing-container">
+          <img src={ Image } alt="Liam Sullivan" className="profile-photo" /><br />
           <div className="text">
             <p>Hi, my name is Liam Sullivan, and I'm a Computer Science and Digital Narrative and Interactive Design Major at the University of Pittsburgh. My background is very unique. I've worked as a photographer for over 5 years, and in that time I've developed an eye for composure, framing, and negative space. Now, I study Computer Science as a full time student. My hope is to combine my design chops with my programming knowledge to be the best of both worlds in the realm of front-end web development.</p>
             <h3 className="title">Education</h3>
@@ -101,10 +198,10 @@ const PhotographyPage = () => {
   return (
     <div>
     <main>
-    <div class="title-container">
-      <h2 class="title">My Portfolio</h2>
-    </div>
-    <div id="photo-gallery"></div>
+      <div class="title-container">
+        <h2 class="title">My Portfolio</h2>
+      </div>
+      <FlickrGallery />
     </main>
   </div>
   );
@@ -117,9 +214,7 @@ const ProjectPage = () => {
     <div class="title-container">
       <h2 class="title">Projects</h2>
     </div>
-    <div class="repos">
-      <ul class="repo-list"></ul>
-    </div>
+      <GitHubFetcher />
     </main>
   </div>
   );
