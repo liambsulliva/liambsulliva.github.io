@@ -64,8 +64,8 @@ const FlickrGallery = () => {
   useEffect(() => {
     const fetchFlickrData = async () => {
       //TODO: Hide in Github Secrets
-      const apiKey = process.env.REACT_APP_FLICKR_API_KEY;
-      const userId = process.env.REACT_APP_FLICKR_USER_ID;
+      const apiKey = "a52e2fe91b943c26733c493a6c3c3090";
+      const userId = "148052898@N03";
       const url = `https://api.flickr.com/services/rest/?method=flickr.people.getPublicPhotos&api_key=${apiKey}&user_id=${userId}&format=json&nojsoncallback=1`;
 
       const response = await fetch(url);
