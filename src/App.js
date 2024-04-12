@@ -1,8 +1,7 @@
-import Image from './me.jpg';
-import './App.css';
-//import Projects from './projects.js';
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import Image from './me.jpg';
+import './App.css';
 
 const currentYear = new Date().getFullYear();
 
@@ -63,7 +62,6 @@ const FlickrGallery = () => {
 
   useEffect(() => {
     const fetchFlickrData = async () => {
-      //TODO: Hide in Github Secrets
       const apiKey = process.env.REACT_APP_FLICKR_API_KEY;
       const userId = process.env.REACT_APP_FLICKR_USER_ID;
       const url = `https://api.flickr.com/services/rest/?method=flickr.people.getPublicPhotos&api_key=${apiKey}&user_id=${userId}&format=json&nojsoncallback=1`;
@@ -137,13 +135,13 @@ const GitHubFetcher = () => {
             {repo.homepage && repo.homepage !== '' ? (
               <>
                 <br /> <br />
-                <a className="link-btn" href={repo.html_url} target="_blank">View Project</a> <br /> <br />
-                <a className="link-btn" href={repo.homepage} target="_blank">Live Preview</a> <br />
+                <a className="link-btn" href={repo.html_url} target="_blank" rel="noreferrer">View Project</a> <br /> <br />
+                <a className="link-btn" href={repo.homepage} target="_blank" rel="noreferrer">Live Preview</a> <br />
               </>
             ) : (
               <>
                 <br /> <br />
-                <a className="link-btn" href={repo.html_url} target="_blank">View Project</a> <br />
+                <a className="link-btn" href={repo.html_url} target="_blank" rel="noreferrer">View Project</a> <br />
               </>
             )}
           </div>
