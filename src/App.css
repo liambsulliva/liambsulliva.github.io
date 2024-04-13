@@ -251,7 +251,7 @@ button[type="submit"]:active {
   transform: scale(0.96);
 }
 
-@media screen and (max-width: 1380px) {
+@media screen and (max-width: 1075px) {
   .landing-container {
     flex-direction: column;
   }
