@@ -73,14 +73,12 @@ const WordpressFetcher = () => {
       const data = await response.json();
       
       let posts = [];
-
       data.posts.forEach((post) => {
         // Only fetch posts that match MY account
-        if (post.author.name === "liambsulliva" && post.author.id === 651) {
+        if (post.author.name === "liambsulliva") {
           posts.push(post);
         }
       });
-      console.log(posts);
       setWordpressData(posts);
     }
     fetchWordpressData();
