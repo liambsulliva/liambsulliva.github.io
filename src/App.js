@@ -75,7 +75,7 @@ const WordpressFetcher = () => {
       let posts = [];
       data.posts.forEach((post) => {
         // Only fetch posts that match MY account
-        if (post.author.name === "liambsulliva") {
+        if (post.author.name === "liambsulliva" ) {
           posts.push(post);
         }
       });
@@ -166,7 +166,6 @@ const GitHubFetcher = () => {
       }
     };
     fetchRepos();
-    console.log(repos);
   }, []);
 
   return (
