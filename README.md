@@ -6,6 +6,7 @@ This is the code for my personal website. It is built using React and deployed v
 
 - Landing page with a brief introduction and education background.
 - Resume page with a PDF viewer to display the resume.
+- Blog page documenting my time in Berlin (and possibly more!)
 - Photography page with a gallery of photos fetched from Flickr.
 - Projects page that fetches repositories from GitHub and displays them.
 - Contact page with a form to send messages.
