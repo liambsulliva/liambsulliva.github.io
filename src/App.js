@@ -67,19 +67,13 @@ const WordpressFetcher = () => {
   useEffect(() => {
     const fetchWordpressData = async () => {
       const site = `pittbusinesstotheworld.com`;
-      const url = `https://public-api.wordpress.com/rest/v1.1/sites/${site}/posts/`;
+      const author = `651`; // My Author ID
+      const url = `https://public-api.wordpress.com/rest/v1.1/sites/${site}/posts/?author=${author}`;
 
       const response = await fetch(url);
       const data = await response.json();
       
-      let posts = [];
-      data.posts.forEach((post) => {
-        // Only fetch posts that match MY account
-        if (post.author.name === "liambsulliva" ) {
-          posts.push(post);
-        }
-      });
-      setWordpressData(posts);
+      setWordpressData(data.posts);
     }
     fetchWordpressData();
   }, []);
